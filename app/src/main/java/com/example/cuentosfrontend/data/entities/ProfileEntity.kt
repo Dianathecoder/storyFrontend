@@ -1,0 +1,11 @@
+package com.example.cuentosfrontend.data.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName="profile")
+data class ProfileEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int=0,
+    val plan:String
+)
