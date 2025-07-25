@@ -46,12 +46,28 @@ android {
 dependencies {
 
 
+    implementation("io.github.sceneview:sceneview:2.3.0")
+
+
+    implementation("androidx.compose.ui:ui:1.6.0")
+    implementation("androidx.compose.runtime:runtime:1.6.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
+
     implementation("androidx.room:room-runtime:2.5.2")
-    implementation(libs.androidx.ui.test.android)
+    implementation(libs.scenecore)
+    implementation(libs.androidx.compose)
+
+
     kapt("androidx.room:room-compiler:2.5.2")
     implementation("androidx.room:room-ktx:2.5.2")
-    implementation(libs.translate)
+
+
     implementation("androidx.navigation:navigation-compose:2.5.3")
+
+
+    implementation(libs.androidx.ui.test.android)
+    implementation(libs.translate)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

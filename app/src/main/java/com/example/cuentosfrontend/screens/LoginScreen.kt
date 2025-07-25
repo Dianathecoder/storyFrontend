@@ -181,7 +181,7 @@ fun BodyLogin(navController: NavHostController, modifier: Modifier = Modifier) {
                         if (name.isNotBlank()) {
 
                                 // Esto se ejecuta cuando se completa el guardado
-                                navController.navigate("choose_avatar")
+                                navController.navigate("choose_avatar/$name")
 
                         } else {
                                 Toast.makeText(context, "Falta poner tu nombre", Toast.LENGTH_SHORT).show()

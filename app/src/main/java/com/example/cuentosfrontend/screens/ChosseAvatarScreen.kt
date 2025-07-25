@@ -1,5 +1,6 @@
 package com.example.cuentosfrontend.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +33,8 @@ import com.example.cuentosfrontend.ui.components.Music
 
 
 @Composable
-fun ChosseAvatarScreen(navController: NavHostController, modifier: Modifier =Modifier) {
-    BodyChooseAvatar(navController, modifier)
+fun ChosseAvatarScreen(navController: NavHostController,username:String,modifier: Modifier =Modifier) {
+    BodyChooseAvatar(navController, username,modifier)
 
 }
 
@@ -94,7 +95,7 @@ fun AvatarSelected(onAvatarSelected: (Int) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
 
-        ) {
+            ) {
             for (i in availableAvatars.indices step 2) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -125,8 +126,8 @@ fun AvatarSelected(onAvatarSelected: (Int) -> Unit) {
 }
 
 @Composable
-fun BodyChooseAvatar(navController: NavHostController, modifier: Modifier = Modifier) {
-
+fun BodyChooseAvatar(navController: NavHostController, username: String,modifier: Modifier = Modifier) {
+    var selectedAvatar by remember { mutableStateOf(R.drawable.perfil_dragon) }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -144,7 +145,7 @@ fun BodyChooseAvatar(navController: NavHostController, modifier: Modifier = Modi
 
             AvatarSelected(
                 onAvatarSelected = { avatarId ->
-                    //Avatar elegido
+                    selectedAvatar = avatarId
                 }
             )
 
@@ -154,18 +155,12 @@ fun BodyChooseAvatar(navController: NavHostController, modifier: Modifier = Modi
                 .align(Alignment.BottomEnd)
                 .padding(end = 40.dp, bottom = 40.dp),
             onClick = {
-                        navController.navigate("HomeActivity")
-                    }
-                )
-
-
-
-
+                Log.d("NAVIGATION", "Navigating to HomeScreen")
+                navController.navigate("HomeScreen/$username/$selectedAvatar")
+            }
+        )
     }
 }
-
-
-
 
 
 

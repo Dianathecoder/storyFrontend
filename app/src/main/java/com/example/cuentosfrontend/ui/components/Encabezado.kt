@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,5 +65,17 @@ fun TitleScreen(text: String, modifier: Modifier = Modifier) {
         fontSize = 48.sp,//Tamaño
         color = Color(0xFF6A4C93),//Color
         textAlign = TextAlign.Start//Que empieze a la izquierda(puede cambiar)
+    )
+}
+
+
+@Composable
+fun ProfileSmall(avatarId: Int, modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = avatarId),
+        contentDescription = "Avatar perfil pequeño",
+        modifier = modifier
+            .size(150.dp)
+            .clip(CircleShape)
     )
 }
