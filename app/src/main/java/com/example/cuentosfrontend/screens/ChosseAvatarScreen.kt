@@ -1,15 +1,18 @@
 package com.example.cuentosfrontend.screens
 
 import android.util.Log
-import androidx.compose.foundation.Image
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,102 +25,116 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.cuentosfrontend.R
-import com.example.cuentosfrontend.ui.components.ButtonContinuar
-import com.example.cuentosfrontend.ui.components.Music
+import com.example.cuentosfrontend.ui.components.Perfiles.AnimatedAvatar
+import com.example.cuentosfrontend.ui.components.Web.ButtonContinuar
+import com.example.cuentosfrontend.ui.components.Web.Music
+import com.example.cuentosfrontend.ui.components.Perfiles.SpeechBubbleComic
+import com.example.cuentosfrontend.utils.AvatarConstants
 
-
-
-@Composable
-fun ChosseAvatarScreen(navController: NavHostController,username:String,modifier: Modifier =Modifier) {
-    BodyChooseAvatar(navController, username,modifier)
-
-}
 
 
 
 @Composable
-fun AvatarOption(avatarResId: Int, isSelected: Boolean, onClick: () -> Unit){
-    Box(
-        modifier = Modifier
-            .size(250.dp)
-            .clip(CircleShape) ,// Fondo uniforme opcional
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(id = avatarResId),
-            contentDescription = "Avatar opción",
-            modifier = Modifier
-                .clip(CircleShape)
-                .clickable(onClick = onClick)
-        )
-    }
+fun ChosseAvatarScreen(  // Solo una definición, la que recibe language
+    navController: NavHostController,
+    username: String,
+    language: String,
+    modifier: Modifier = Modifier
+) {
+    BodyChooseAvatar(navController, username, language, modifier)
 }
-//Muestra una fila de imágenes circulares
+
+
 @Composable
 fun AvatarSelected(onAvatarSelected: (Int) -> Unit) {
-    val avatars = listOf(
-        R.drawable.perfil_dragon,
-        R.drawable.perfil_cocodrilo,
-        R.drawable.perfil_pajaro,
-        R.drawable.perfil_perro,
-        R.drawable.zorro_perfil
-    )
+    val avatars = AvatarConstants.avatarList//Lista avatares
+    var selectedAvatar by remember { mutableStateOf(avatars.first()) }//guarda cual avatar ha sido seleccionado
+    val animatedAvatar = AvatarConstants.animatedAvatars[selectedAvatar]
+    val description = if (animatedAvatar != null) {
+        AvatarConstants.avatarDescriptions[animatedAvatar.loopAnimation] ?: ""
+    } else ""
 
-    var selectedAvatar by remember { mutableStateOf(avatars.first()) }
-    val availableAvatars = avatars.filter { it != selectedAvatar }
+    val bubbleColor = if (animatedAvatar != null) {
+        AvatarConstants.avatarBubbleColors[animatedAvatar.loopAnimation] ?: Color(0xFFEFEFEF)
+    } else Color(0xFFEFEFEF)
 
-    Row(
+
+//Contenedor principal
+    Column(//Orgqniza los avatares en filas verticales
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.Center, // Centra horizontalmente el Row
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth()//Ocupa el ancho disponible
+            .padding(horizontal = 20.dp, vertical = 20.dp),//Ecpacio alrededor del contenido
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(30.dp)//ESpacio entre filas de avatares
     ) {
-        // Avatar seleccionado (grande)
-        Image(
-            painter = painterResource(id = selectedAvatar),
-            contentDescription = "Avatar seleccionado",
-            modifier = Modifier
-                .size(500.dp)
-                .clip(CircleShape)
 
-        )
+        avatars.chunked(3).forEach { rowAvatars ->//Divide los avates en grupos de 3
 
-        Spacer(modifier = Modifier.width(32.dp)) // Separación entre avatar grande y la columna
-
-        // Columna con avatares (dos por fila) con peso para balancear el espacio
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            // Dibuja los 3 avatares horizontalmente.
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(32.dp),
+                verticalAlignment = Alignment.CenterVertically,
 
             ) {
-            for (i in availableAvatars.indices step 2) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-
-                ) {
-                    AvatarOption(
-                        avatarResId = availableAvatars[i],
-                        isSelected = false,
-                        onClick = {
-                            selectedAvatar = availableAvatars[i]
-                            onAvatarSelected(availableAvatars[i])
-                        }
-                    )
-                    if (i + 1 < availableAvatars.size) {
-                        AvatarOption(
-                            avatarResId = availableAvatars[i + 1],
-                            isSelected = false,
-                            onClick = {
-                                selectedAvatar = availableAvatars[i + 1]
-                                onAvatarSelected(availableAvatars[i + 1])
-                            }
+                rowAvatars.forEach { avatarResId ->
+                    // Contenedor que mantiene posición para avatar y burbuja
+                    Box(
+                        modifier = Modifier
+                            .width(280.dp)
+                            .height(220.dp), // altura fija solo para el avatar, sin burbuja
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        // Escala + offset para levantar avatar cuando está seleccionado
+                        val scale by animateFloatAsState(
+                            targetValue = if (avatarResId == selectedAvatar) 1.2f else 1.0f,
+                            label = "avatarScale"
                         )
+                        val offsetY by animateDpAsState(
+                            targetValue = if (avatarResId == selectedAvatar) (-16).dp else 0.dp,
+                            label = "avatarOffsetY"
+                        )
+
+                       //Avatar con fondo sutil y efecto click
+                        Box(
+                            modifier = Modifier
+                                .size(200.dp)
+                                .background(
+                                    color = AvatarConstants.avatarBubbleColors[avatarResId]?.copy(alpha = 0.3f)
+                                        ?: Color.LightGray.copy(alpha = 0.3f), // fondo sutil
+                                    shape = CircleShape
+                                )
+                                .offset(y = offsetY)
+                                .clickable {
+                                    selectedAvatar = avatarResId
+                                    onAvatarSelected(avatarResId)
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AnimatedAvatar(
+                                avatarRes = avatarResId,
+                                isSelected = avatarResId == selectedAvatar,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .scale(scale)
+                            )
+                        }
+
+                        // Burbuja encima del avatar (dibujada después)
+                        if (avatarResId == selectedAvatar) {
+                            SpeechBubbleComic(
+                                text = description,
+                                backgroundColor = bubbleColor,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                                    .align(Alignment.TopCenter)
+                                    .offset(y = (-150).dp)
+                            )
+                        }
                     }
                 }
             }
@@ -125,16 +142,24 @@ fun AvatarSelected(onAvatarSelected: (Int) -> Unit) {
     }
 }
 
+
+
+
+
 @Composable
-fun BodyChooseAvatar(navController: NavHostController, username: String,modifier: Modifier = Modifier) {
-    var selectedAvatar by remember { mutableStateOf(R.drawable.perfil_dragon) }
+fun BodyChooseAvatar(
+    navController: NavHostController,
+    username: String,
+    language: String,
+    modifier: Modifier = Modifier
+) {
+    var selectedAvatar by remember { mutableStateOf(R.drawable.dragon_estatico) }
     Box(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         Music(modifier)
-        // Centra el selector de avatar
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -142,13 +167,11 @@ fun BodyChooseAvatar(navController: NavHostController, username: String,modifier
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
             AvatarSelected(
                 onAvatarSelected = { avatarId ->
                     selectedAvatar = avatarId
                 }
             )
-
         }
         ButtonContinuar(
             modifier = Modifier
@@ -156,11 +179,8 @@ fun BodyChooseAvatar(navController: NavHostController, username: String,modifier
                 .padding(end = 40.dp, bottom = 40.dp),
             onClick = {
                 Log.d("NAVIGATION", "Navigating to HomeScreen")
-                navController.navigate("HomeScreen/$username/$selectedAvatar")
+                navController.navigate("HomeScreen/$username/$language/$selectedAvatar")
             }
         )
     }
 }
-
-
-

@@ -46,6 +46,13 @@ android {
 dependencies {
 
 
+    implementation("androidx.compose.ui:ui-text-google-fonts:<latest_version>")
+
+    //Gif
+    implementation("io.coil-kt:coil-gif:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+
     implementation("io.github.sceneview:sceneview:2.3.0")
 
 
@@ -57,6 +64,9 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.2")
     implementation(libs.scenecore)
     implementation(libs.androidx.compose)
+    implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
 
 
     kapt("androidx.room:room-compiler:2.5.2")
