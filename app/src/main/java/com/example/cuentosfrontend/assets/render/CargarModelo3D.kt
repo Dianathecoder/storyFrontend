@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.assets.render
+/*package com.example.cuentosfrontend.assets.render
 
 import android.util.Log
 import androidx.xr.runtime.Session
@@ -28,4 +28,4 @@ suspend fun cargarModelo3D(
         val gltfEntity = GltfModelEntity.create(session, gltfModel)
         onModelReady(gltfEntity)  // Avisamos que el modelo está listo y enviamos la entidad
     }
-}
+}*/

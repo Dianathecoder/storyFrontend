@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.assets.render
+/*package com.example.cuentosfrontend.assets.render
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -87,4 +87,4 @@ fun ObjectInAVolume(show3DObject: Boolean) {
     }
 }
 
-
+*/

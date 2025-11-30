@@ -33,3 +33,7 @@ val Typography = Typography(
     )
 
 )
+
+val PorkyS = FontFamily(
+    Font(R.font.porky_s)
+)

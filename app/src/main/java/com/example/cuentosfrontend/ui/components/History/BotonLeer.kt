@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.ui.components.History
+/*package com.example.cuentosfrontend.ui.components.History
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.height
@@ -64,4 +64,4 @@ fun Botonleer(
 }
 
 
-
+*/

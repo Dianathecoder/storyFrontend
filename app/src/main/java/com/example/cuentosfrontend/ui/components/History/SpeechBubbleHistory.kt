@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.ui.components.History
+/*package com.example.cuentosfrontend.ui.components.History
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -44,5 +44,5 @@ fun SpeechBubbleHistory(
         )
     }
 }
-
+*/
 

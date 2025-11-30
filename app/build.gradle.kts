@@ -1,96 +1,101 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android") version "2.0.21"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
     id("kotlin-kapt")
 }
 
-kapt {
-    correctErrorTypes = true
-}
 android {
     namespace = "com.example.cuentosfrontend"
     compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.cuentosfrontend"
-        minSdk = 24
-        targetSdk = 36
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.7.3"
+    }
+
+    //  Configura Java y Kotlin al mismo nivel
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        jvmToolchain(17)
+
+    }
+
+    // Si usas una versión más vieja de Gradle y falla el bloque de arriba,
+    // puedes dejar también este bloque adicional:
+    kotlinOptions {
+        jvmTarget = "17"
+
     }
 }
 
 dependencies {
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("io.coil-kt:coil-gif:2.7.0")
 
 
-    implementation("androidx.compose.ui:ui-text-google-fonts:<latest_version>")
 
-    //Gif
-    implementation("io.coil-kt:coil-gif:2.5.0")
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    // Compose Core
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.animation:animation")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui-text-google-fonts")
+    implementation("androidx.compose.material:material-icons-extended")
 
+    // Activity + Lifecycle
+    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
 
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.8.2")
+
+    // Retrofit + OkHttp
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    // Lottie
+    implementation("com.airbnb.android:lottie-compose:6.4.1")
+
+    // Room con KSP
+    implementation("androidx.room:room-runtime:2.7.0-alpha03")
+    implementation("androidx.room:room-ktx:2.7.0-alpha03")
+
+    // SceneView
     implementation("io.github.sceneview:sceneview:2.3.0")
 
+    // MLKit Translation
+    implementation("com.google.mlkit:translate:17.0.3")
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.ads.mobile.sdk)
 
-    implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("androidx.compose.runtime:runtime:1.6.0")
+    // Testing
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
-
-    implementation("androidx.room:room-runtime:2.5.2")
-    implementation(libs.scenecore)
-    implementation(libs.androidx.compose)
-    implementation(libs.androidx.navigation.runtime.android)
-    implementation(libs.androidx.foundation.layout.android)
-    implementation(libs.androidx.foundation.layout.android)
-
-
-    kapt("androidx.room:room-compiler:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2")
-
-
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-
-
-    implementation(libs.androidx.ui.test.android)
-    implementation(libs.translate)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

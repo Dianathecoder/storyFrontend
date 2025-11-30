@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.ui.components.Web
+/*package com.example.cuentosfrontend.ui.components.Web
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cuentosfrontend.R
-import com.example.cuentosfrontend.utils.AvatarConstants
-import com.example.cuentosfrontend.ui.components.Perfiles.GifImage
+import com.example.cuentosfrontend.ui.components.Avates.AvatarConstants
+import com.example.cuentosfrontend.ui.components.Avates.GifImage
 import com.example.cuentosfrontend.utils.UiConstants
 
 
@@ -155,4 +155,4 @@ fun ProfileSmall(avatarId: Int, modifier: Modifier = Modifier) {
             .clip(CircleShape)
     )
 }
-
+*/

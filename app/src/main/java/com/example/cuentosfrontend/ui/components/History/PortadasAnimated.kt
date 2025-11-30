@@ -1,4 +1,4 @@
-package com.example.cuentosfrontend.ui.components.History
+/*package com.example.cuentosfrontend.ui.components.History
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -113,6 +113,6 @@ fun PortadaConDescripcion(
         }
     }
 }
-
+*/
 
 
